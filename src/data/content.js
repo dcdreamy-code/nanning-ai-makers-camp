@@ -23,7 +23,7 @@ export const site = {
     '面向南宁 10–18 岁青少年的 8 周项目制 AI 学习计划：从自己的兴趣出发，完成用户访谈、AI 原型与 Demo Day 路演，之后再获得 6 个月导师陪跑。首期仅 6 个名额，2026 年 11 月 7 日开课。',
   keywords:
     '南宁 AI 课程,南宁 少儿编程,项目制学习,AI 原型,用户访谈,Demo Day,创新教育,南宁 青少年人工智能',
-  url: 'https://nanning-ai-makers-camp.pages.dev',
+  url: 'https://dcdreamy-code.github.io/nanning-ai-makers-camp/',
   email: 'hello@makers.work',
   phone: '0771-8888 0000',
   wechatLabel: '微信公众号',

@@ -34,14 +34,16 @@ def inline_css(m: re.Match) -> str:
     if not p.exists():
         return m.group(0)
     css = p.read_text(encoding="utf-8")
-    # 把 CSS 里的 url(/fonts/x.woff2) 换成 data URI
+    # 把 CSS 里的字体 url 换成 data URI
+    # 部署到子路径时字体路径为相对形式 ../fonts/，根目录部署为 /fonts/，两者都匹配
     def repl_font(fm: re.Match) -> str:
-        fp = DIST / fm.group(1).lstrip("/")
+        raw = fm.group(1)
+        fp = DIST / raw.lstrip("/").replace("../", "")
         if not fp.exists():
             return fm.group(0)
         return f"url({data_uri(fp)})"
 
-    css = re.sub(r"url\((/[^)]+\.woff2)\)", repl_font, css)
+    css = re.sub(r"url\((?:\.\./)?/?fonts/[^)]+\.woff2\)", repl_font, css)
     return f"<style>{css}</style>"
 
 
