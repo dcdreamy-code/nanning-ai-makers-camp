@@ -1,0 +1,284 @@
+---
+import { embodied as E, mentors as M } from '../data/content.js';
+import Title from './Title.astro';
+---
+
+<!-- ========== 05 具身智能 ========== -->
+<section class="section embodied">
+  <div class="wrap">
+    <div class="embodied__grid">
+      <div class="embodied__copy">
+        <p class="eyebrow rv"><b>{E.num}</b> {E.label}</p>
+        <h2 class="h2 rv rv-d1">
+          <Title parts={E.title} />
+        </h2>
+        <p class="embodied__desc rv rv-d2">{E.desc}</p>
+        <blockquote class="embodied__quote rv rv-d3">{E.quote}</blockquote>
+      </div>
+
+      <div class="embodied__loop">
+        <svg viewBox="0 0 300 300" class="loop" aria-hidden="true" data-loop>
+          <circle class="loop__ring draw" data-loop-ring cx="150" cy="150" r="104" />
+          <circle class="loop__node" cx="150" cy="46" r="7" />
+          <circle class="loop__node" cx="59.9" cy="197" r="7" />
+          <circle class="loop__node" cx="240.1" cy="197" r="7" />
+        </svg>
+        <ul class="embodied__items">
+          {E.items.map((it, i) => (
+            <li class="rv" style={`transition-delay:${i * 0.09}s`}>
+              <span class="embodied__no">{it.no}</span>
+              <h3 class="embodied__k">{it.k}</h3>
+              <p class="embodied__v">{it.v}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 06 导师 ========== -->
+<section class="section mentors" id="mentors">
+  <div class="wrap">
+    <div class="head">
+      <div class="head__main">
+        <p class="eyebrow rv"><b>{M.num}</b> {M.label}</p>
+        <h2 class="h2 rv rv-d1">
+          <Title parts={M.title} />
+        </h2>
+      </div>
+      <div class="head__side">
+        <p class="mentors__desc rv rv-d2">{M.desc}</p>
+      </div>
+    </div>
+
+    <!-- 时间轴 -->
+    <div class="mentors__timeline" data-mentors>
+      <div class="mentors__track" aria-hidden="true">
+        {M.track.map((t) => <span class="mentors__tick">{t}</span>)}
+      </div>
+
+      <div class="mentors__rows">
+        {M.rows.map((r, i) => (
+          <article class="mrow rv" data-mentor-row style={`transition-delay:${i * 0.06}s`}>
+            <div class="mrow__when">
+              <span class="mrow__span">{r.span}</span>
+              {r.spanNote && <span class="mrow__spannote label">{r.spanNote}</span>}
+            </div>
+            <div class="mrow__body">
+              <h3 class="mrow__role">{r.role}</h3>
+              <p class="mrow__bg">{r.bg}</p>
+              <p class="mrow__desc">{r.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="mentors__foot">
+      <p class="mentors__note rv">{M.note}</p>
+      <p class="mentors__disclaimer label rv rv-d1">{M.disclaimer}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---------- 具身智能 ---------- */
+  .embodied__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 56px;
+    align-items: center;
+  }
+  .embodied__copy {
+    grid-column: 1 / span 6;
+    display: grid;
+    gap: 24px;
+  }
+  .embodied__desc {
+    font-size: 15px;
+    line-height: 1.85;
+  }
+  .embodied__quote {
+    padding-left: 20px;
+    border-left: 2px solid var(--signal);
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--text);
+  }
+
+  .embodied__loop {
+    position: relative;
+    grid-column: 7 / -1;
+    /* 圆环占位高度独立出来，不要跟下方文字重叠 */
+    padding-top: 300px;
+  }
+  .loop {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: min(300px, 78%);
+    transform: translateX(-50%);
+    overflow: visible;
+  }
+  .loop__ring {
+    fill: none;
+    stroke: var(--signal);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .loop__node {
+    fill: var(--paper);
+    stroke: var(--signal);
+    stroke-width: 2;
+  }
+  .embodied__items {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 0;
+  }
+  .embodied__no {
+    display: block;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--signal);
+  }
+  .embodied__k {
+    margin-top: 12px;
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .embodied__v {
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  /* ---------- 导师 ---------- */
+  .mentors {
+    background: var(--paper);
+  }
+  .mentors__desc {
+    font-size: 14px;
+    line-height: 1.85;
+  }
+
+  .mentors__timeline {
+    margin-top: clamp(56px, 7vw, 96px);
+  }
+  .mentors__track {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  .mentors__tick {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .mentors__tick:first-child,
+  .mentors__tick:last-child {
+    color: var(--signal);
+  }
+
+  .mrow {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+    transition: background 0.5s var(--ease-out);
+  }
+  .mrow:hover {
+    background: rgba(21, 23, 28, 0.022);
+  }
+  .mrow__when {
+    grid-column: 1 / span 2;
+    display: grid;
+    gap: 6px;
+  }
+  .mrow__span {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--signal);
+    letter-spacing: 0.04em;
+  }
+  .mrow__body {
+    grid-column: 4 / span 8;
+  }
+  .mrow__role {
+    font-family: var(--serif);
+    font-size: clamp(19px, 1.8vw, 25px);
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .mrow__bg {
+    margin-top: 8px;
+    font-size: 13.5px;
+    color: var(--ink);
+    opacity: 0.78;
+  }
+  .mrow__desc {
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .mentors__foot {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 14px;
+    margin-top: 40px;
+  }
+  .mentors__note {
+    grid-column: 1 / span 6;
+    font-size: 13.5px;
+    line-height: 1.8;
+  }
+  .mentors__disclaimer {
+    grid-column: 7 / -1;
+    align-self: end;
+  }
+
+  @media (max-width: 1080px) {
+    .embodied__copy,
+    .embodied__loop,
+    .mrow__when,
+    .mrow__body,
+    .mentors__note,
+    .mentors__disclaimer {
+      grid-column: 1 / -1;
+    }
+    .embodied__loop {
+      order: 2;
+    }
+    .embodied__items {
+      grid-template-columns: 1fr;
+      margin-top: 0;
+    }
+    .loop {
+      display: none;
+    }
+    .mrow__when {
+      margin-bottom: 12px;
+    }
+    .mentors__track {
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .mentors__track::-webkit-scrollbar { display: none; }
+  }
+</style>

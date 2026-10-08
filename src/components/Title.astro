@@ -1,0 +1,18 @@
+---
+/**
+ * 章节标题渲染器
+ * 接收 [{ t, accent, br }]，accent 渲染成信号橙，br=true 强制换行。
+ */
+interface Props {
+  parts: { t: string; accent?: boolean; br?: boolean }[];
+  cls?: string;
+}
+const { parts, cls = '' } = Astro.props;
+---
+
+{parts.map((p) => (
+  <>
+    {p.accent ? <em class="acc">{p.t}</em> : <span>{p.t}</span>}
+    {p.br && <br />}
+  </>
+))}

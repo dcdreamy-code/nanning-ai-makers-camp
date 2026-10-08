@@ -1,0 +1,189 @@
+---
+import { paths as P } from '../data/content.js';
+import { nnPaths } from '../data/nanning.js';
+import Title from './Title.astro';
+
+// 项目方向使用南宁本地选题
+const tabs = nnPaths;
+---
+
+<section class="section paths">
+  <div class="wrap">
+    <div class="head">
+      <div class="head__main">
+        <p class="eyebrow rv"><b>{P.num}</b> {P.label}</p>
+        <h2 class="h2 rv rv-d1">
+          <Title parts={P.title} />
+        </h2>
+      </div>
+      <div class="head__side">
+        <p class="paths__desc rv rv-d2">{P.desc}</p>
+      </div>
+    </div>
+
+    <div class="paths__grid">
+      <!-- 左：标签列表 -->
+      <div class="paths__tabs" role="tablist" aria-label="项目方向">
+        {tabs.map((t, i) => (
+          <button
+            type="button"
+            class="paths__tab rv"
+            role="tab"
+            id={`tab-${t.id}`}
+            aria-controls={`panel-${t.id}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+            data-path-tab={t.id}
+            style={`transition-delay:${i * 0.05}s`}
+          >
+            <span class="paths__tab-no">{t.no}</span>
+            <span class="paths__tab-name">{t.name}</span>
+            <i class="paths__tab-bar" data-matrix-bar></i>
+          </button>
+        ))}
+      </div>
+
+      <!-- 右：内容面板（sticky） -->
+      <div class="paths__stage">
+        {tabs.map((t, i) => (
+          <div
+            class="paths__panel"
+            role="tabpanel"
+            id={`panel-${t.id}`}
+            aria-labelledby={`tab-${t.id}`}
+            data-path-panel={t.id}
+            hidden={i !== 0}
+          >
+            <h3 class="paths__panel-title">{t.title}</h3>
+            <dl class="paths__rows" data-matrix-rows>
+              {t.rows.map((r) => (
+                <div class="prow" data-matrix-row>
+                  <dt>{r.k}</dt>
+                  <dd>{r.v}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <p class="paths__footnote label rv">{P.footnote}</p>
+  </div>
+</section>
+
+<style>
+  .paths__desc {
+    font-size: 14px;
+    line-height: 1.85;
+  }
+
+  .paths__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 40px;
+    align-items: start;
+    margin-top: clamp(56px, 7vw, 96px);
+  }
+
+  .paths__tabs {
+    grid-column: 1 / span 4;
+    display: grid;
+    gap: 2px;
+  }
+  .paths__tab {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 18px 4px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    color: var(--muted);
+    transition: color 0.4s var(--ease-out);
+  }
+  .paths__tab-no {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--signal);
+  }
+  .paths__tab-name {
+    font-family: var(--serif);
+    font-size: clamp(17px, 1.5vw, 21px);
+  }
+  .paths__tab-bar {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 2px;
+    width: 0;
+    background: var(--signal);
+    transition: width 0.55s var(--ease-out);
+  }
+  .paths__tab:hover,
+  .paths__tab[aria-selected='true'] {
+    color: var(--ink);
+  }
+  .paths__tab[aria-selected='true'] .paths__tab-bar {
+    width: 100%;
+  }
+
+  .paths__stage {
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+    grid-column: 7 / -1;
+  }
+  .paths__panel {
+    animation: panel-in 0.6s var(--ease-out);
+  }
+  @keyframes panel-in {
+    from { opacity: 0; transform: translateY(14px); }
+  }
+  .paths__panel-title {
+    font-family: var(--serif);
+    font-size: clamp(24px, 2.6vw, 34px);
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.35;
+  }
+  .paths__rows {
+    margin-top: 28px;
+    display: grid;
+  }
+  .prow {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 20px;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .prow dt {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .prow dd {
+    margin: 0;
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .paths__footnote {
+    margin-top: clamp(48px, 6vw, 80px);
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 1080px) {
+    .paths__tabs,
+    .paths__stage {
+      grid-column: 1 / -1;
+    }
+    .paths__stage {
+      position: static;
+      margin-top: 8px;
+    }
+  }
+</style>

@@ -1,0 +1,228 @@
+---
+import { manifesto, method } from '../data/content.js';
+import Title from './Title.astro';
+---
+
+<!-- ========== 01 反定位宣言 ========== -->
+<section class="section manifesto" id="method">
+  <div class="manifesto__grid wrap">
+    <p class="eyebrow manifesto__label rv">
+      <b>{manifesto.num}</b> {manifesto.label}
+    </p>
+
+    <div class="manifesto__body rv rv-d1">
+      <p
+        class="h2 manifesto__text split"
+        data-split
+        data-emphasis={manifesto.emphasis}
+      >
+        {manifesto.text}
+      </p>
+      <p class="manifesto__note">
+        <i aria-hidden="true"></i>
+        {manifesto.footnote}
+      </p>
+    </div>
+  </div>
+
+  <!-- ========== 02 方法九步 ========== -->
+  <div class="method">
+    <div class="method__head wrap">
+      <p class="eyebrow rv"><b>{method.num}</b> {method.label}</p>
+      <h2 class="h2 method__title rv rv-d1">
+        <Title parts={method.title} />
+      </h2>
+      <p class="method__desc rv rv-d2">{method.desc}</p>
+    </div>
+
+    <div class="steps" aria-label="九个关键动作">
+      <div class="steps__track">
+        {method.steps.map((s, i) => (
+          <>
+            {i > 0 && <span class="steps__dot" aria-hidden="true"></span>}
+            <span class="steps__item rv" style={`transition-delay:${i * 0.045}s`}>
+              <b>{String(i + 1).padStart(2, '0')}</b>
+              {s}
+            </span>
+          </>
+        ))}
+      </div>
+      <div class="steps__marquee" aria-hidden="true" data-marquee>
+        <div class="steps__marquee-track" data-marquee-track>
+          {[0, 1].map(() => (
+            <span class="steps__marquee-group">
+              {method.steps.map((s, i) => (
+                <>
+                  <em>{s}</em>
+                  <i></i>
+                </>
+              ))}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .manifesto__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 32px;
+  }
+  .manifesto__label {
+    grid-column: 1 / span 3;
+    align-self: start;
+    padding-top: 12px;
+  }
+  .manifesto__body {
+    grid-column: 4 / span 8;
+  }
+  .manifesto__text {
+    font-size: clamp(24px, 3.05vw, 40px);
+    line-height: 1.5;
+    text-align: justify;
+  }
+  .manifesto__note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 32px;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .manifesto__note i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--signal);
+    flex: none;
+  }
+
+  /* ---------- 方法 ---------- */
+  .method {
+    margin-top: clamp(96px, 12vw, 176px);
+  }
+  .method__head {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 24px;
+    align-items: start;
+  }
+  .method__head .eyebrow {
+    grid-column: 1 / span 3;
+    padding-top: 12px;
+  }
+  .method__title {
+    grid-column: 4 / span 5;
+  }
+  .method__desc {
+    grid-column: 9 / -1;
+    padding-top: 12px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .steps {
+    position: relative;
+    margin-top: clamp(40px, 5vw, 68px);
+    border-block: 1px solid var(--line);
+  }
+  .steps__track {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    width: min(var(--max), 100% - 2 * var(--gutter));
+    margin-inline: auto;
+    padding-block: clamp(26px, 3vw, 40px);
+  }
+  .steps__item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--serif);
+    font-size: clamp(17px, 1.65vw, 24px);
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .steps__item b {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: var(--signal);
+  }
+  .steps__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--signal);
+    flex: none;
+    align-self: center;
+  }
+
+  /* 跑马灯：滚动到此处时缓慢滚动（桌面） */
+  .steps__marquee {
+    display: none;
+    overflow: hidden;
+    padding-block: clamp(30px, 4vw, 56px);
+  }
+  .steps__marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 42s linear infinite;
+  }
+  .steps__marquee-group {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+  .steps__marquee em {
+    font-family: var(--display);
+    font-size: clamp(52px, 8.4vw, 128px);
+    font-style: normal;
+    line-height: 1;
+    color: rgba(21, 23, 28, 0.24);
+    padding-inline: 0.22em;
+    white-space: nowrap;
+  }
+  .steps__marquee i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--signal);
+    flex: none;
+  }
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 1080px) {
+    .manifesto__label,
+    .method__head .eyebrow {
+      grid-column: 1 / -1;
+      padding-top: 0;
+    }
+    .manifesto__body,
+    .method__title {
+      grid-column: 1 / -1;
+    }
+    .method__desc {
+      grid-column: 1 / -1;
+    }
+    /* 小屏切跑马灯 */
+    .steps__track {
+      display: none;
+    }
+    .steps__marquee {
+      display: block;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .steps__marquee-track { animation: none; }
+  }
+</style>

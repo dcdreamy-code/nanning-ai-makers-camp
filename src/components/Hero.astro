@@ -1,0 +1,365 @@
+---
+import { hero, heroSample } from '../data/content.js';
+
+const seatsDots = Array.from({ length: hero.eyebrow.seats });
+---
+
+<section class="hero" id="top">
+  <svg class="thread thread--hero" data-thread="hero" aria-hidden="true" preserveAspectRatio="none">
+    <path class="thread__path" d=""></path>
+    <circle class="thread__tip" r="5"></circle>
+  </svg>
+
+  <div class="hero__grid wrap">
+    <div class="hero__copy">
+      <p class="hero__kicker">
+        <span class="seats-dots" aria-hidden="true">
+          {seatsDots.map(() => <i></i>)}
+        </span>
+        <span>首期</span>
+        <span class="hero__sep" aria-hidden="true"></span>
+        <span>仅 {hero.eyebrow.seats} 个名额</span>
+        <span class="hero__sep" aria-hidden="true"></span>
+        <span>{hero.eyebrow.date}</span>
+      </p>
+
+      <h1 class="hero__title">
+        <span class="mask"><span>从一个想法，</span></span>
+        <span class="mask"><span>到一个<em>真实</em>的项目</span></span>
+      </h1>
+
+      <p class="hero__lede">{hero.lede}</p>
+
+      <div class="hero__cta">
+        <a class="btn" href="#enroll" data-magnetic>
+          <span class="btn__fill" aria-hidden="true"></span>
+          <span>{hero.ctaPrimary}</span>
+          <span class="btn__icon">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 8h12M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+        <a class="btn btn--ghost" href="#curriculum">
+          {hero.ctaSecondary}
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero__cards" aria-label={`${heroSample.label}示例`}>
+      <p class="hero__cards-label">{heroSample.label}</p>
+      <div class="cards" data-stack-cards>
+        {heroSample.cards.map((c, i) => (
+          <article class={`card card--${i + 1}`} data-card style={`--i:${i}`}>
+            <p class="card__tag"><i aria-hidden="true"></i>{c.tag}</p>
+            <h3 class="card__title">{c.title}</h3>
+            {c.mock === 'form' ? (
+              <div class="card__mock" aria-hidden="true">
+                <p class="card__mock-title">出手检查</p>
+                <span class="row"><i style="width:78%"></i><em class="dot dot--warn"></em></span>
+                <span class="row"><i style="width:62%"></i><em class="dot"></em></span>
+                <span class="row"><i style="width:70%"></i><em class="dot"></em></span>
+                <button type="button" tabindex="-1">开始录制</button>
+              </div>
+            ) : (
+              c.body && <p class="card__body">{c.body}</p>
+            )}
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <dl class="hero__facts wrap">
+    {hero.facts.map((f) => (
+      <div class="fact">
+        <dt class="fact__k">{f.k}</dt>
+        <dd class="fact__v">{f.v}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    padding-top: calc(var(--header-h) + clamp(28px, 5vw, 84px));
+    padding-bottom: clamp(28px, 3.4vw, 48px);
+  }
+  .hero__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    align-items: center;
+    flex: 1;
+  }
+  .hero__copy {
+    position: relative;
+    z-index: 2;
+    grid-column: 1 / span 7;
+  }
+
+  .hero__kicker {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    font-family: var(--mono);
+    font-size: var(--fs-label);
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .seats-dots {
+    display: flex;
+    gap: 4px;
+    margin-right: 2px;
+  }
+  .seats-dots i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--signal);
+  }
+  .hero__sep {
+    width: 18px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+
+  .hero__title {
+    margin-top: clamp(22px, 3vw, 38px);
+    font-family: var(--serif);
+    font-size: clamp(42px, 6.1vw, 84px);
+    font-weight: 500;
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .hero__title .mask {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em;
+  }
+  .hero__title .mask > span {
+    display: block;
+  }
+  .hero__title em {
+    font-style: normal;
+    color: var(--signal);
+  }
+  /* 首屏文字上浮入场 */
+  .js-motion .hero__title .mask > span {
+    transform: translateY(105%);
+    animation: hero-up 1.05s var(--ease-out) forwards;
+  }
+  .js-motion .hero__title .mask:nth-child(2) > span {
+    animation-delay: 0.12s;
+  }
+  @keyframes hero-up {
+    to { transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js-motion .hero__title .mask > span {
+      transform: none;
+      animation: none;
+    }
+  }
+
+  .hero__lede {
+    max-width: 46ch;
+    margin-top: clamp(22px, 2.6vw, 34px);
+    font-size: var(--fs-lead);
+    line-height: 1.72;
+    color: var(--text);
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 22px;
+    margin-top: clamp(28px, 3.4vw, 44px);
+  }
+
+  /* ---- 右侧错位卡片 ---- */
+  .hero__cards {
+    position: relative;
+    grid-column: 8 / -1;
+    z-index: 1;
+  }
+  .hero__cards-label {
+    font-family: var(--mono);
+    font-size: var(--fs-label);
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .cards {
+    position: relative;
+    height: clamp(400px, 40vw, 486px);
+  }
+  .card {
+    position: absolute;
+    width: clamp(230px, 24vw, 290px);
+    padding: 20px 22px;
+    background: #fbf9f4;
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+    box-shadow: 0 14px 34px rgba(21, 23, 28, 0.09);
+    /* --enter 只做入场位移，错位旋转由下方 class 负责，两者叠加不冲突 */
+    transform: translate(var(--enter, none), var(--enter, none)) var(--tilt, none);
+    transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out),
+      box-shadow 0.6s var(--ease-out);
+  }
+  .card__tag {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .card__tag i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--signal);
+  }
+  .card__title {
+    margin-top: 10px;
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .card__body {
+    margin-top: 7px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .card__mock {
+    margin-top: 14px;
+    padding: 14px;
+    border-radius: 12px;
+    background: var(--ink);
+  }
+  .card__mock-title {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--paper);
+    margin-bottom: 12px;
+  }
+  .card__mock .row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 9px;
+  }
+  .card__mock .row i {
+    display: block;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(244, 241, 234, 0.16);
+  }
+  .card__mock .dot {
+    width: 8px;
+    height: 8px;
+    margin-left: auto;
+    border-radius: 50%;
+    background: rgba(244, 241, 234, 0.35);
+    flex: none;
+  }
+  .card__mock .dot--warn {
+    background: var(--signal);
+  }
+  .card__mock button {
+    display: block;
+    width: 100%;
+    margin-top: 14px;
+    padding: 8px;
+    border-radius: 999px;
+    background: var(--signal);
+    color: var(--paper);
+    font-size: 12px;
+  }
+
+  /* 错位布局：四张卡交错（旋转走 --tilt，避免与入场 transform 冲突）
+     与原站一致的观感：相邻卡片边缘轻微交叠，但文字区不压字 */
+  .card--1 { top: 0;    left: 0;    --tilt: rotate(-1.4deg); }
+  .card--2 { top: 100px; left: 40%;  --tilt: rotate(1.2deg); }
+  .card--3 { top: 208px; left: 0;    --tilt: rotate(1deg); }
+  .card--4 { top: 300px; left: 44%;  --tilt: rotate(-1.6deg); }
+
+  .card:hover {
+    z-index: 3;
+    box-shadow: 0 22px 48px rgba(21, 23, 28, 0.14);
+  }
+
+  /* 移动端：横向滑动 */
+  @media (max-width: 1080px) {
+    .hero {
+      min-height: 0;
+    }
+    .hero__copy {
+      grid-column: 1 / -1;
+    }
+    .hero__cards {
+      grid-column: 1 / -1;
+      margin-top: 46px;
+    }
+    .cards {
+      display: flex;
+      gap: 14px;
+      height: auto;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 4px 0 12px;
+      scrollbar-width: none;
+    }
+    .cards::-webkit-scrollbar { display: none; }
+    .card {
+      position: static;
+      width: 250px;
+      flex: none;
+      --tilt: none;
+      scroll-snap-align: start;
+    }
+    .thread--hero { display: none; }
+  }
+
+  /* ---- 底部四栏事实 ---- */
+  .hero__facts {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    margin-top: clamp(40px, 5vw, 72px);
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .fact__k {
+    font-size: var(--fs-label);
+    color: var(--muted);
+  }
+  .fact__v {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  @media (max-width: 760px) {
+    .hero__facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 20px;
+    }
+  }
+</style>

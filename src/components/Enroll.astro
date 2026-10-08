@@ -1,0 +1,513 @@
+---
+import { enroll as N, faq as F, cta as C, site, footer } from '../data/content.js';
+import Title from './Title.astro';
+---
+
+<!-- ========== 09 首期名额 ========== -->
+<section class="section enroll" id="enroll">
+  <div class="wrap">
+    <div class="cohort__grid">
+      <div class="cohort__copy">
+        <p class="eyebrow rv"><b>{N.num}</b> {N.label}</p>
+        <h2 class="h2 rv rv-d1">
+          <Title parts={N.title} />
+        </h2>
+        <p class="cohort__desc rv rv-d2">{N.desc}</p>
+
+        <!-- 名额格 -->
+        <ol class="seats" data-seats aria-label={`首期 ${N.seats} 个名额`}>
+          {Array.from({ length: N.seats }).map((_, i) => (
+            <li class="seat" data-seat={i + 1}>
+              <span class="seat__no">{String(i + 1).padStart(2, '0')}</span>
+              <span class="seat__tag">待预约</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div class="cohort__panel">
+        <dl class="spec">
+          {N.rows.map((r, i) => (
+            <div class="spec__row rv" style={`transition-delay:${i * 0.045}s`}>
+              <dt>{r.k}</dt>
+              <dd>{r.v}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div class="price rv rv-d2">
+          <p class="label">{N.priceTitle}</p>
+          <p class="price__num">{N.price}</p>
+          <p class="price__note">{N.priceNote}</p>
+          <p class="price__note price__note--early">{N.priceNote2}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 上课时间 -->
+    <div class="tz">
+      <p class="label rv">{N.tzTitle}</p>
+      <ul class="tz__list">
+        {N.tz.map((t, i) => (
+          <li class="tz__row rv" style={`transition-delay:${i * 0.07}s`}>
+            <span class="tz__city">{t.city}</span>
+            <span class="tz__time">{t.time}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="tz__note label rv">{N.tzNote}</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 10 FAQ ========== -->
+<section class="section faq" id="faq">
+  <div class="wrap">
+    <div class="faq__grid">
+      <div class="faq__head">
+        <p class="eyebrow rv"><b>{F.num}</b> {F.label}</p>
+        <h2 class="h2 rv rv-d1">
+          <Title parts={F.title} />
+        </h2>
+      </div>
+
+      <div class="faq__list">
+        {F.items.map((it, i) => (
+          <div class="qa rv" data-qa style={`transition-delay:${i * 0.04}s`}>
+            <button type="button" class="qa__q" aria-expanded="false" data-qa-toggle>
+              <span class="qa__num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="qa__text">{it.q}</span>
+              <i class="qa__icon" aria-hidden="true"></i>
+            </button>
+            <div class="qa__a" data-qa-panel hidden>
+              <p>{it.a}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="section cta">
+  <div class="wrap cta__wrap">
+    <p class="cta__quote cta__quote--en rv">{C.quote}</p>
+    <h2 class="cta__title rv rv-d1">{C.sub}</h2>
+    <p class="cta__desc rv rv-d2">{C.desc}</p>
+    <a class="btn btn--light cta__btn rv rv-d3" href={`mailto:${site.email}`} data-magnetic>
+      <span class="btn__fill" aria-hidden="true"></span>
+      <span>{C.btn}</span>
+      <span class="btn__icon">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 8h12M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </a>
+  </div>
+</section>
+
+<!-- ========== 页脚 ========== -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div class="foot__brand">
+        <a class="brand brand--foot" href="#top">
+          <span class="brand__mark" aria-hidden="true"><i></i></span>
+          <span class="brand__name">{site.brand}</span>
+        </a>
+        <p class="foot__made">{footer.madeBy}</p>
+        <p class="foot__city label">{footer.city}</p>
+      </div>
+
+      <dl class="foot__contact">
+        <div>
+          <dt class="label">邮箱</dt>
+          <dd><a class="ulink" href={`mailto:${site.email}`}>{site.email}</a></dd>
+        </div>
+        <div>
+          <dt class="label">电话</dt>
+          <dd><a class="ulink" href={`tel:${site.phone.replace(/[^0-9]/g, '')}`}>{site.phone}</a></dd>
+        </div>
+        <div>
+          <dt class="label">{site.wechatLabel}</dt>
+          <dd>{site.wechatId}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="foot__bar">
+      <p class="label">{site.brand} © 2026 {site.byline.replace(' 出品', '')}</p>
+      <p class="foot__legal label">
+        本页所列院校与机构名称仅用于说明导师的学术或职业背景，不代表相关院校、机构对本项目的认可或背书。
+      </p>
+      <a class="foot__top btn btn--ghost" href="#top">
+        回到顶部
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.5v-12M3.5 7 8 2.5 12.5 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* ---------- 09 名额 ---------- */
+  .enroll {
+    background: var(--ink);
+    color: rgba(244, 241, 234, 0.72);
+  }
+  .cohort__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 56px;
+    align-items: start;
+  }
+  .cohort__copy {
+    grid-column: 1 / span 6;
+    display: grid;
+    gap: 26px;
+  }
+  .cohort__desc {
+    font-size: 14px;
+    line-height: 1.85;
+    max-width: 40ch;
+  }
+
+  .seats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .seat {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 16px;
+    border: 1px solid var(--line-inv);
+    border-radius: 12px;
+    transition: border-color 0.5s var(--ease-out), background 0.5s var(--ease-out);
+  }
+  .seat:hover {
+    border-color: var(--signal);
+    background: rgba(232, 86, 42, 0.09);
+  }
+  .seat__no {
+    font-family: var(--display);
+    font-size: 22px;
+    color: var(--paper);
+  }
+  .seat__tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: rgba(244, 241, 234, 0.44);
+  }
+
+  .cohort__panel {
+    grid-column: 8 / -1;
+  }
+  .spec {
+    display: grid;
+  }
+  .spec__row {
+    display: grid;
+    grid-template-columns: 104px 1fr;
+    gap: 22px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-inv);
+    align-items: baseline;
+  }
+  .spec__row:first-child {
+    border-top: 1px solid var(--line-inv);
+  }
+  .spec__row dt {
+    font-size: 12px;
+    color: rgba(244, 241, 234, 0.48);
+  }
+  .spec__row dd {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.72;
+  }
+
+  .price {
+    margin-top: 40px;
+    padding: 28px;
+    border-radius: 16px;
+    background: rgba(244, 241, 234, 0.05);
+    border: 1px solid var(--line-inv);
+  }
+  .price__num {
+    margin-top: 12px;
+    font-family: var(--display);
+    font-size: clamp(42px, 4.6vw, 60px);
+    line-height: 1;
+    color: var(--paper);
+  }
+  .price__note {
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.75;
+  }
+  .price__note--early {
+    color: var(--signal);
+    font-weight: 500;
+  }
+
+  .tz {
+    margin-top: clamp(56px, 7vw, 88px);
+    padding-top: 28px;
+    border-top: 1px solid var(--line-inv);
+  }
+  .tz__list {
+    display: grid;
+    margin-top: 20px;
+  }
+  .tz__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-inv);
+  }
+  .tz__city {
+    font-size: 14px;
+  }
+  .tz__time {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--paper);
+  }
+  .tz__note {
+    margin-top: 16px;
+  }
+
+  /* ---------- 10 FAQ ---------- */
+  .faq__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 40px;
+    align-items: start;
+  }
+  .faq__head {
+    position: sticky;
+    top: calc(var(--header-h) + 40px);
+    grid-column: 1 / span 4;
+    display: grid;
+    gap: 28px;
+  }
+  .faq__list {
+    grid-column: 6 / -1;
+  }
+  .qa {
+    border-bottom: 1px solid var(--line);
+  }
+  .qa:first-child {
+    border-top: 1px solid var(--line);
+  }
+  .qa__q {
+    display: grid;
+    grid-template-columns: 42px 1fr 26px;
+    align-items: start;
+    gap: 18px;
+    width: 100%;
+    padding: 26px 0;
+    text-align: left;
+  }
+  .qa__num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--signal);
+    padding-top: 6px;
+  }
+  .qa__text {
+    font-family: var(--serif);
+    font-size: clamp(17px, 1.6vw, 22px);
+    font-weight: 500;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .qa__icon {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    margin-top: 8px;
+  }
+  .qa__icon::before,
+  .qa__icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: var(--ink);
+    transition: transform 0.45s var(--ease-out), opacity 0.3s;
+  }
+  .qa__icon::after {
+    transform: rotate(90deg);
+  }
+  .qa__q[aria-expanded='true'] .qa__icon::after {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+  .qa__a {
+    overflow: hidden;
+  }
+  .qa__a p {
+    padding: 0 44px 28px 60px;
+    font-size: 14px;
+    line-height: 1.9;
+    max-width: 62ch;
+    animation: a-in 0.5s var(--ease-out);
+  }
+  @keyframes a-in {
+    from { opacity: 0; transform: translateY(-8px); }
+  }
+
+  /* ---------- CTA ---------- */
+  .cta {
+    background: var(--signal);
+    color: var(--paper);
+  }
+  .cta__wrap {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 22px;
+  }
+  .cta__quote {
+    font-family: var(--display);
+    font-size: clamp(26px, 3.4vw, 46px);
+    line-height: 1.34;
+    color: var(--paper);
+    max-width: 24ch;
+  }
+  .cta__quote--en {
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+  .cta__title {
+    font-family: var(--serif);
+    font-size: clamp(30px, 3.8vw, 52px);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .cta__desc {
+    max-width: 44ch;
+    font-size: 15px;
+    line-height: 1.85;
+    color: rgba(244, 241, 234, 0.86);
+  }
+  .cta__btn {
+    margin-top: 12px;
+    --btn-bg: var(--paper);
+    --btn-fg: var(--ink);
+  }
+  .cta__btn .btn__fill {
+    background: var(--ink);
+  }
+  .cta__btn .btn__icon {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* ---------- 页脚 ---------- */
+  .foot {
+    background: var(--ink);
+    color: rgba(244, 241, 234, 0.66);
+    padding-top: clamp(64px, 8vw, 104px);
+    padding-bottom: 40px;
+  }
+  .foot__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 40px;
+  }
+  .foot__brand {
+    grid-column: 1 / span 5;
+    display: grid;
+    gap: 14px;
+    align-content: start;
+  }
+  .brand--foot {
+    color: var(--paper);
+  }
+  .foot__made {
+    font-size: 13px;
+  }
+  .foot__contact {
+    grid-column: 7 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+  .foot__contact dt {
+    margin-bottom: 8px;
+  }
+  .foot__contact dd {
+    margin: 0;
+    font-size: 14px;
+  }
+  .foot__contact .ulink {
+    color: var(--paper);
+  }
+
+  .foot__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px 32px;
+    margin-top: clamp(56px, 7vw, 88px);
+    padding-top: 26px;
+    border-top: 1px solid var(--line-inv);
+  }
+  .foot__legal {
+    flex: 1;
+    min-width: 260px;
+    max-width: 60ch;
+  }
+  .foot__top {
+    --btn-fg: var(--paper);
+    color: var(--paper);
+  }
+  .foot__top svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  @media (max-width: 1080px) {
+    .cohort__copy,
+    .cohort__panel,
+    .faq__head,
+    .faq__list,
+    .foot__brand,
+    .foot__contact {
+      grid-column: 1 / -1;
+    }
+    .faq__head {
+      position: static;
+    }
+    .seats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .foot__contact {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .qa__q {
+      grid-template-columns: 32px 1fr 22px;
+      gap: 12px;
+    }
+    .qa__a p {
+      padding-left: 44px;
+    }
+    .seats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,665 @@
+---
+import {
+  nnExam,
+  nnCompetitions,
+  nnPolicy,
+  nnEcosystem,
+  nnDemographics,
+  nnSources
+} from '../data/nanning.js';
+---
+
+<!-- ========== 南宁生源现状（真实数据） ========== -->
+<section class="section nn">
+  <div class="wrap">
+    <div class="head">
+      <div class="head__main">
+        <p class="eyebrow rv"><b>NN</b> 为什么是南宁</p>
+        <h2 class="h2 rv rv-d1">
+          南宁的孩子不缺热情，<em class="acc">缺的是通道。</em>
+        </h2>
+      </div>
+      <div class="head__side">
+        <p class="nn__lead rv rv-d2">
+          这一节里的每个数字都来自南宁市统计局、市教育局和自治区教育厅的公开文件。
+          我们不打算用「机遇」「风口」这类词说服你，只把本地真实情况摊开来讲。
+        </p>
+      </div>
+    </div>
+
+    <!-- 生源规模 -->
+    <div class="nn__demo rv">
+      <p class="label">南宁市 2025 年在校生规模</p>
+      <dl class="nn__demo-grid">
+        <div class="dcell">
+          <dt>小学在校</dt>
+          <dd>{nnDemographics.primary}<i>人</i></dd>
+        </div>
+        <div class="dcell">
+          <dt>初中在校</dt>
+          <dd>{nnDemographics.junior}<i>人</i></dd>
+        </div>
+        <div class="dcell">
+          <dt>高中在校</dt>
+          <dd>{nnDemographics.senior}<i>人</i></dd>
+        </div>
+        <div class="dcell">
+          <dt>九年义务教育巩固率</dt>
+          <dd>{nnDemographics.preserveRate}</dd>
+        </div>
+      </dl>
+      <p class="nn__demo-note">{nnDemographics.note}</p>
+    </div>
+
+    <!-- 中考竞争：三年趋势 + 录取率 -->
+    <div class="nn__exam">
+      <div class="nn__exam-left">
+        <p class="label rv">中考竞争三年走势</p>
+        <h3 class="nn__h3 rv rv-d1">考生在涨，普高学位也在涨，但两者之间的差距没有消失。</h3>
+        <ul class="nn__key">
+          {nnExam.key.map((k, i) => (
+            <li class="rv" style={`transition-delay:${i * 0.06}s`}>
+              <span class="nn__key-v">{k.v}</span>
+              <span class="nn__key-k">{k.k}</span>
+              <span class="nn__key-note">{k.note}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+    <!-- 柱状趋势图 -->
+    <figure class="nn__chart rv rv-d2">
+      <figcaption class="label">市区中考考生人数 vs 普高招生计划</figcaption>
+      <div class="chart">
+        {nnExam.years.map((y) => {
+          const max = 80000;
+          return (
+            <div class="chart__col">
+              <div class="chart__bars">
+                <span
+                  class="chart__bar chart__bar--cand"
+                  style={`height:${(y.candidates / max) * 100}%`}
+                  title={`${y.year} 考生 ${y.candidates} 人`}
+                >
+                  <em>{y.candidates.toLocaleString()}</em>
+                </span>
+                <span
+                  class="chart__bar chart__bar--plan"
+                  style={`height:${(y.plan / max) * 100}%`}
+                  title={`${y.year} 计划 ${y.plan} 人`}
+                >
+                  <em>{y.plan.toLocaleString()}</em>
+                </span>
+              </div>
+              <p class="chart__gap">
+                缺口 <b>{(y.candidates - y.plan).toLocaleString()}</b>
+              </p>
+              <p class="chart__year">{y.year}</p>
+            </div>
+          );
+        })}
+      </div>
+      <p class="chart__legend">
+        <span><i class="dot dot--cand"></i>考生人数</span>
+        <span><i class="dot dot--plan"></i>普高招生计划</span>
+        <span class="chart__legend-rate">下方为当年供需缺口（人）</span>
+      </p>
+    </figure>
+    </div>
+
+    <!-- 第一批次真实录取线 -->
+    <div class="nn__batch">
+      <p class="label rv">2026 年第一批次录取线 · 通道比分数更重要</p>
+      <div class="nn__batch-grid">
+        {nnExam.firstBatch.map((b, i) => (
+          <article class="batch rv" style={`transition-delay:${i * 0.08}s`}>
+            <h3 class="batch__school">{b.school}</h3>
+            <p class="batch__plan">计划 {b.plan} 人</p>
+            <p class="batch__cut">{b.cut}</p>
+            <p class="batch__rank">全市约前 {b.rank.toLocaleString()} 名</p>
+            <p class="batch__note">{b.note}</p>
+          </article>
+        ))}
+      </div>
+      <p class="nn__insight rv">{nnExam.insight}</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 竞争与生态 ========== -->
+<section class="section nn-eco section--ink">
+  <div class="wrap">
+    <div class="head">
+      <div class="head__main">
+        <p class="eyebrow rv"><b>NN</b> 本地生态与我们的位置</p>
+        <h2 class="h2 rv rv-d1">
+          南宁不是空白市场，<em class="acc">但有一个明显的缺口。</em>
+        </h2>
+      </div>
+    </div>
+
+    <div class="eco">
+      <!-- 竞赛生态 -->
+      <div class="eco__col">
+        <p class="label rv">孩子们已经在打的仗</p>
+        <div class="comp-list">
+          {nnCompetitions.items.map((c, i) => (
+            <article class="comp rv" style={`transition-delay:${i * 0.06}s`}>
+              <div class="comp__head">
+                <h3 class="comp__name">{c.name}</h3>
+                <span class="comp__level">{c.level}</span>
+              </div>
+              <p class="comp__fact">{c.fact}</p>
+              <p class="comp__stat">
+                <span class="comp__year">{c.year}</span>
+                {c.stat}
+              </p>
+              <p class="comp__detail">{c.detail}</p>
+            </article>
+          ))}
+        </div>
+        <p class="comp__note label rv">{nnCompetitions.note}</p>
+
+        <!-- 左栏补充：政策红利 -->
+        <div class="eco__block eco__block--light rv rv-d1">
+          <p class="label">南宁已有的 AI 教育土壤</p>
+          <ul class="chips chips--light">
+            {nnEcosystem.policy.map((v) => <li>{v}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <!-- 政策 + 机构 -->
+      <div class="eco__col">
+        <div class="policy rv">
+          <p class="policy__doc">{nnPolicy.doc}</p>
+          <p class="policy__issuer">{nnPolicy.issuer}</p>
+          <ul class="policy__points">
+            {nnPolicy.points.map((p) => (
+              <li>
+                <b>{p.k}</b>
+                <span>{p.v}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="policy__fit">{nnPolicy.ourFit}</p>
+        </div>
+
+        <div class="eco__block rv rv-d1">
+          <p class="label">本地已有的研学与场馆</p>
+          <ul class="chips">
+            {nnEcosystem.venues.map((v) => <li>{v}</li>)}
+          </ul>
+        </div>
+
+        <div class="eco__block rv rv-d2">
+          <p class="label">同赛道已在跑的机构</p>
+          <ul class="rivals">
+            {nnEcosystem.competitor.map((c) => (
+              <li>
+                <b>{c.name}</b>
+                <span>{c.note}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="gap">{nnEcosystem.gap}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---------- 生源规模 ---------- */
+  .nn__lead {
+    font-size: 14px;
+    line-height: 1.85;
+  }
+  .nn__demo {
+    margin-top: clamp(48px, 6vw, 80px);
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .nn__demo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 28px;
+    margin-top: 22px;
+  }
+  .dcell {
+    display: grid;
+    gap: 8px;
+  }
+  .dcell dt {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .dcell dd {
+    margin: 0;
+    font-family: var(--display);
+    font-size: clamp(28px, 3.2vw, 42px);
+    line-height: 1;
+    color: var(--ink);
+  }
+  .dcell dd i {
+    font-style: normal;
+    font-size: 0.4em;
+    margin-left: 4px;
+    color: var(--muted);
+  }
+  .nn__demo-note {
+    margin-top: 22px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ---------- 中考竞争 ---------- */
+  .nn__exam {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 48px;
+    align-items: start;
+    margin-top: clamp(64px, 8vw, 112px);
+  }
+  .nn__exam-left {
+    grid-column: 1 / span 6;
+  }
+  .nn__h3 {
+    margin-top: 18px;
+    font-family: var(--serif);
+    font-size: clamp(19px, 1.85vw, 26px);
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .nn__key {
+    display: grid;
+    margin-top: 30px;
+  }
+  .nn__key li {
+    display: grid;
+    grid-template-columns: 96px 118px 1fr;
+    gap: 16px;
+    align-items: baseline;
+    padding: 15px 0;
+    border-top: 1px solid var(--line);
+  }
+  .nn__key-v {
+    font-family: var(--display);
+    font-size: 20px;
+    color: var(--signal);
+  }
+  .nn__key-k {
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .nn__key-note {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* 柱状图 */
+  .nn__chart {
+    grid-column: 8 / -1;
+    position: sticky;
+    top: calc(var(--header-h) + 40px);
+  }
+  .nn__chart figcaption {
+    margin-bottom: 26px;
+  }
+  .chart {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    height: 260px;
+  }
+  .chart__col {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .chart__bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 6px;
+    flex: 1;
+    border-bottom: 1px solid var(--line);
+  }
+  .chart__bar {
+    position: relative;
+    width: 26px;
+    border-radius: 3px 3px 0 0;
+    min-height: 4px;
+  }
+  .chart__bar--cand {
+    background: var(--ink);
+  }
+  .chart__bar--plan {
+    background: var(--signal);
+  }
+  .chart__bar em {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 9px;
+    font-style: normal;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .chart__gap {
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .chart__gap b {
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--signal);
+  }
+  .chart__year {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .chart__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 20px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .chart__legend span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--ink);
+  }
+  .dot--cand { background: var(--ink); }
+  .dot--plan { background: var(--signal); }
+  .chart__legend-rate {
+    margin-left: auto;
+    opacity: 0.7;
+  }
+
+  /* ---------- 第一批次 ---------- */
+  .nn__batch {
+    margin-top: clamp(64px, 8vw, 112px);
+  }
+  .nn__batch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 24px;
+    margin-top: 26px;
+  }
+  .batch {
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    transition: border-color 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  }
+  .batch:hover {
+    border-color: var(--signal);
+    transform: translateY(-3px);
+  }
+  .batch__school {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .batch__plan {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .batch__cut {
+    margin-top: 18px;
+    font-family: var(--display);
+    font-size: 24px;
+    color: var(--signal);
+    line-height: 1.2;
+  }
+  .batch__rank {
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: var(--text);
+  }
+  .batch__note {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .nn__insight {
+    margin-top: 32px;
+    padding: 24px;
+    border-left: 2px solid var(--signal);
+    background: rgba(21, 23, 28, 0.03);
+    font-family: var(--serif);
+    font-size: clamp(16px, 1.6vw, 20px);
+    line-height: 1.8;
+    color: var(--ink);
+  }
+
+  /* ---------- 生态（深色） ---------- */
+  .eco {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 56px;
+    align-items: start;
+    margin-top: clamp(48px, 6vw, 80px);
+  }
+  .eco__col:first-child {
+    grid-column: 1 / span 7;
+  }
+  .eco__col:last-child {
+    grid-column: 8 / -1;
+  }
+  .comp-list {
+    display: grid;
+    margin-top: 20px;
+  }
+  .comp {
+    padding: 18px 0;
+    border-top: 1px solid var(--line-inv);
+  }
+  .comp__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .comp__name {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--paper);
+  }
+  .comp__level {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--signal);
+  }
+  .comp__fact {
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.65;
+    color: rgba(244, 241, 234, 0.82);
+  }
+  .comp__stat {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: rgba(244, 241, 234, 0.6);
+  }
+  .comp__year {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(232, 86, 42, 0.18);
+    color: #ffbfa8;
+  }
+  .comp__detail {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: rgba(244, 241, 234, 0.5);
+  }
+  .comp__note {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line-inv);
+  }
+
+  /* 政策卡 */
+  .policy {
+    padding: 24px;
+    border: 1px solid var(--signal);
+    border-radius: 14px;
+    background: rgba(232, 86, 42, 0.07);
+  }
+  .policy__doc {
+    font-family: var(--serif);
+    font-size: 17px;
+    color: var(--paper);
+    line-height: 1.5;
+  }
+  .policy__issuer {
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--signal);
+  }
+  .policy__points {
+    display: grid;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .policy__points li {
+    display: grid;
+    gap: 4px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line-inv);
+  }
+  .policy__points b {
+    font-size: 12px;
+    color: var(--signal);
+    font-weight: 500;
+  }
+  .policy__points span {
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: rgba(244, 241, 234, 0.68);
+  }
+  .policy__fit {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line-inv);
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--paper);
+  }
+
+  .eco__block {
+    margin-top: 40px;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .chips li {
+    padding: 8px 14px;
+    border: 1px solid var(--line-inv);
+    border-radius: 999px;
+    font-size: 12.5px;
+    color: rgba(244, 241, 234, 0.72);
+  }
+  .rivals {
+    display: grid;
+    margin-top: 16px;
+  }
+  .rivals li {
+    display: grid;
+    gap: 4px;
+    padding: 13px 0;
+    border-top: 1px solid var(--line-inv);
+  }
+  .rivals b {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--paper);
+  }
+  .rivals span {
+    font-size: 12px;
+    line-height: 1.65;
+    color: rgba(244, 241, 234, 0.52);
+  }
+  .gap {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 12px;
+    background: rgba(244, 241, 234, 0.06);
+    font-size: 13px;
+    line-height: 1.85;
+    color: rgba(244, 241, 234, 0.86);
+  }
+  /* 深色区里的浅色补充块 */
+  .eco__block--light {
+    margin-top: 36px;
+  }
+  .chips--light li {
+    border-color: var(--line-inv);
+    color: rgba(244, 241, 234, 0.72);
+  }
+
+  @media (max-width: 1080px) {
+    .nn__exam-left,
+    .nn__chart,
+    .eco__col:first-child,
+    .eco__col:last-child,
+    .nn__batch-grid {
+      grid-column: 1 / -1;
+    }
+    .nn__chart {
+      position: static;
+    }
+    .nn__demo-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .nn__key li {
+      grid-template-columns: 88px 1fr;
+    }
+    .nn__key-note {
+      grid-column: 1 / -1;
+    }
+    .nn__batch-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

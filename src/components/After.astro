@@ -1,0 +1,289 @@
+---
+import { after as A, outcomes as O } from '../data/content.js';
+import Title from './Title.astro';
+---
+
+<!-- ========== 07 结课后 6 个月 ========== -->
+<section class="section after">
+  <div class="wrap">
+    <div class="head">
+      <div class="head__main">
+        <p class="eyebrow rv"><b>{A.num}</b> {A.label}</p>
+        <div class="after__titles">
+          <h2 class="h2 rv rv-d1">
+            <Title parts={A.title} />
+          </h2>
+          <h2 class="h2 rv rv-d2">
+            <Title parts={A.title2} />
+          </h2>
+        </div>
+      </div>
+      <div class="head__side">
+        <p class="after__desc rv rv-d2">{A.desc}</p>
+      </div>
+    </div>
+
+    <!-- 0→1 / 1→10 时间轴 -->
+    <div class="after__track" aria-label="项目陪跑周期">
+      {A.timeline.map((t, i) => (
+        <div class="atrack rv" style={`transition-delay:${i * 0.12}s`}>
+          <p class="atrack__tag">{t.tag}</p>
+          <i class="atrack__line" aria-hidden="true"></i>
+          <p class="atrack__dur">{t.dur}</p>
+        </div>
+      ))}
+    </div>
+
+    <ul class="after__items">
+      {A.items.map((it, i) => (
+        <li class="after__item rv" style={`transition-delay:${i * 0.05}s`}>
+          <span class="after__no">{String(i + 1).padStart(2, '0')}</span>
+          <span>{it}</span>
+        </li>
+      ))}
+    </ul>
+
+    <p class="after__footnote rv">{A.footnote}</p>
+  </div>
+</section>
+
+<!-- ========== 08 孩子将收获什么 ========== -->
+<section class="section outcomes" id="outcomes">
+  <div class="wrap">
+    <div class="outcomes__grid">
+      <div class="outcomes__head">
+        <p class="eyebrow rv"><b>{O.num}</b> {O.label}</p>
+        <h2 class="h2 rv rv-d1">
+          <Title parts={O.title} />
+        </h2>
+        <p class="outcomes__desc rv rv-d2">{O.desc}</p>
+      </div>
+
+      <ol class="outcomes__list">
+        {O.list.map((it, i) => (
+          <li class="olist rv" style={`transition-delay:${i * 0.035}s`}>
+            <span class="olist__no">{String(i + 1).padStart(2, '0')}</span>
+            <span class="olist__t">{it}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <!-- 故事 / 能力 双栏 -->
+    <div class="outcomes__split">
+      <div class="split-col">
+        <p class="label rv">{O.storyTitle}</p>
+        <ul class="story">
+          {O.story.map((s, i) => (
+            <li class="story__item rv" style={`transition-delay:${i * 0.05}s`}>{s}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="split-col">
+        <p class="label rv">{O.abilityTitle}</p>
+        <dl class="abil">
+          {O.abilities.map((a, i) => (
+            <div class="abil__row rv" style={`transition-delay:${i * 0.05}s`}>
+              <dt>{a.k}</dt>
+              <dd>{a.v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+
+    <p class="outcomes__note rv">{O.note}</p>
+  </div>
+</section>
+
+<style>
+  /* ---------- 07 陪跑 ---------- */
+  .after__titles {
+    display: grid;
+    gap: 4px;
+  }
+  .after__desc {
+    font-size: 14px;
+    line-height: 1.85;
+  }
+
+  .after__track {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gutter);
+    margin-top: clamp(56px, 7vw, 96px);
+  }
+  .atrack {
+    display: grid;
+    gap: 12px;
+  }
+  .atrack__tag {
+    font-family: var(--display);
+    font-size: clamp(30px, 3.4vw, 48px);
+    line-height: 1;
+    color: var(--ink);
+  }
+  .atrack__line {
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, var(--signal), var(--signal) 12%, var(--line) 12%);
+  }
+  .atrack__dur {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .after__items {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 2px;
+    margin-top: clamp(48px, 6vw, 80px);
+  }
+  .after__item {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .after__no {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--signal);
+    flex: none;
+  }
+  .after__footnote {
+    margin-top: clamp(40px, 5vw, 64px);
+    font-family: var(--serif);
+    font-size: clamp(17px, 1.7vw, 24px);
+    line-height: 1.7;
+    color: var(--ink);
+    max-width: 42ch;
+  }
+
+  /* ---------- 08 收获 ---------- */
+  .outcomes {
+    background: var(--paper);
+  }
+  .outcomes__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 48px;
+    align-items: start;
+  }
+  .outcomes__head {
+    position: sticky;
+    top: calc(var(--header-h) + 40px);
+    grid-column: 1 / span 5;
+    display: grid;
+    gap: 28px;
+  }
+  .outcomes__desc {
+    font-size: 14px;
+    line-height: 1.85;
+  }
+  .outcomes__list {
+    grid-column: 7 / -1;
+  }
+  .olist {
+    display: flex;
+    align-items: baseline;
+    gap: 22px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .olist:first-child {
+    border-top: 1px solid var(--line);
+  }
+  .olist__no {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--signal);
+    flex: none;
+  }
+
+  .outcomes__split {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 64px;
+    margin-top: clamp(112px, 13vw, 200px);
+  }
+  .split-col:first-child {
+    grid-column: 1 / span 5;
+  }
+  .split-col:last-child {
+    grid-column: 7 / -1;
+  }
+  .story {
+    margin-top: 24px;
+    display: grid;
+  }
+  .story__item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--serif);
+    font-size: clamp(19px, 1.9vw, 26px);
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .abil {
+    margin-top: 24px;
+  }
+  .abil__row {
+    display: grid;
+    grid-template-columns: 108px 1fr;
+    gap: 20px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .abil__row dt {
+    font-family: var(--serif);
+    font-size: 17px;
+    color: var(--ink);
+  }
+  .abil__row dd {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .outcomes__note {
+    margin-top: clamp(64px, 7vw, 104px);
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    line-height: 1.9;
+    max-width: 62ch;
+  }
+
+  @media (max-width: 1080px) {
+    .outcomes__head {
+      position: static;
+      grid-column: 1 / -1;
+    }
+    .outcomes__list,
+    .split-col:first-child,
+    .split-col:last-child {
+      grid-column: 1 / -1;
+    }
+    .after__items {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 640px) {
+    .after__track,
+    .after__items {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
