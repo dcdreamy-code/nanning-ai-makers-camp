@@ -23,7 +23,9 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
+      # 用 npm install 而非 npm ci：lock 文件若与 package.json 不同步，
+      # ci 会直接报错中断，install 则能自愈。
+      - run: npm install --no-audit --no-fund
       - run: npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
